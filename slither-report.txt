@@ -1,0 +1,170 @@
+'npx hardhat clean' running (wd: /mnt/c/Users/JACOB CUP/Desktop/aaa/ezco)
+'npx hardhat clean --global' running (wd: /mnt/c/Users/JACOB CUP/Desktop/aaa/ezco)
+'npx hardhat compile --force' running (wd: /mnt/c/Users/JACOB CUP/Desktop/aaa/ezco)
+INFO:Detectors:
+Detector: incorrect-equality
+RealEstateTrust.createTransaction(uint256,string) (contracts/RealEstateTrust.sol#209-239) uses a dangerous strict equality:
+	- require(bool,string)(properties[_propertyId].status == PropertyStatus.Listed,Property not available) (contracts/RealEstateTrust.sol#215)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities
+INFO:Detectors:
+Detector: reentrancy-no-eth
+Reentrancy in RealEstateTrust.fundTransaction(uint256) (contracts/RealEstateTrust.sol#241-259):
+	External calls:
+	- require(bool,string)(token.transferFrom(msg.sender,address(this),totalAmount),Payment failed) (contracts/RealEstateTrust.sol#250-253)
+	State variables written after the call(s):
+	- transaction.status = TransactionStatus.Funded (contracts/RealEstateTrust.sol#255)
+	RealEstateTrust.transactions (contracts/RealEstateTrust.sol#83) can be used in cross function reentrancies:
+	- RealEstateTrust.completeTransaction(uint256) (contracts/RealEstateTrust.sol#261-292)
+	- RealEstateTrust.createDispute(uint256,string) (contracts/RealEstateTrust.sol#296-321)
+	- RealEstateTrust.createTransaction(uint256,string) (contracts/RealEstateTrust.sol#209-239)
+	- RealEstateTrust.fundTransaction(uint256) (contracts/RealEstateTrust.sol#241-259)
+	- RealEstateTrust.getTransaction(uint256) (contracts/RealEstateTrust.sol#361-363)
+	- RealEstateTrust.resolveDispute(uint256,address) (contracts/RealEstateTrust.sol#323-357)
+	- RealEstateTrust.transactions (contracts/RealEstateTrust.sol#83)
+Reentrancy in RealEstateTrust.resolveDispute(uint256,address) (contracts/RealEstateTrust.sol#323-357):
+	External calls:
+	- require(bool,string)(token.transfer(transaction.seller,transaction.amount),Payment to seller failed) (contracts/RealEstateTrust.sol#343-346)
+	- require(bool,string)(token.transfer(transaction.buyer,transaction.amount),Refund to buyer failed) (contracts/RealEstateTrust.sol#348-351)
+	State variables written after the call(s):
+	- transaction.status = TransactionStatus.Resolved (contracts/RealEstateTrust.sol#354)
+	RealEstateTrust.transactions (contracts/RealEstateTrust.sol#83) can be used in cross function reentrancies:
+	- RealEstateTrust.completeTransaction(uint256) (contracts/RealEstateTrust.sol#261-292)
+	- RealEstateTrust.createDispute(uint256,string) (contracts/RealEstateTrust.sol#296-321)
+	- RealEstateTrust.createTransaction(uint256,string) (contracts/RealEstateTrust.sol#209-239)
+	- RealEstateTrust.fundTransaction(uint256) (contracts/RealEstateTrust.sol#241-259)
+	- RealEstateTrust.getTransaction(uint256) (contracts/RealEstateTrust.sol#361-363)
+	- RealEstateTrust.resolveDispute(uint256,address) (contracts/RealEstateTrust.sol#323-357)
+	- RealEstateTrust.transactions (contracts/RealEstateTrust.sol#83)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2
+INFO:Detectors:
+Detector: reentrancy-benign
+Reentrancy in RealEstateTrust.completeTransaction(uint256) (contracts/RealEstateTrust.sol#261-292):
+	External calls:
+	- require(bool,string)(token.transfer(transaction.seller,transaction.amount),Payment to seller failed) (contracts/RealEstateTrust.sol#281-284)
+	State variables written after the call(s):
+	- properties[transaction.propertyId].status = PropertyStatus.Sold (contracts/RealEstateTrust.sol#287)
+Reentrancy in RealEstateTrust.fundTransaction(uint256) (contracts/RealEstateTrust.sol#241-259):
+	External calls:
+	- require(bool,string)(token.transferFrom(msg.sender,address(this),totalAmount),Payment failed) (contracts/RealEstateTrust.sol#250-253)
+	State variables written after the call(s):
+	- escrowedFunds[address(this)] += transaction.amount (contracts/RealEstateTrust.sol#256)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3
+INFO:Detectors:
+Detector: reentrancy-events
+Reentrancy in RealEstateTrust.completeTransaction(uint256) (contracts/RealEstateTrust.sol#261-292):
+	External calls:
+	- require(bool,string)(token.transfer(transaction.seller,transaction.amount),Payment to seller failed) (contracts/RealEstateTrust.sol#281-284)
+	Event emitted after the call(s):
+	- EscrowReleased(_transactionId,transaction.seller,transaction.amount) (contracts/RealEstateTrust.sol#290)
+	- TransactionCompleted(_transactionId) (contracts/RealEstateTrust.sol#289)
+Reentrancy in RealEstateTrust.fundTransaction(uint256) (contracts/RealEstateTrust.sol#241-259):
+	External calls:
+	- require(bool,string)(token.transferFrom(msg.sender,address(this),totalAmount),Payment failed) (contracts/RealEstateTrust.sol#250-253)
+	Event emitted after the call(s):
+	- TransactionFunded(_transactionId,msg.sender) (contracts/RealEstateTrust.sol#258)
+Reentrancy in RealEstateTrust.resolveDispute(uint256,address) (contracts/RealEstateTrust.sol#323-357):
+	External calls:
+	- require(bool,string)(token.transfer(transaction.seller,transaction.amount),Payment to seller failed) (contracts/RealEstateTrust.sol#343-346)
+	- require(bool,string)(token.transfer(transaction.buyer,transaction.amount),Refund to buyer failed) (contracts/RealEstateTrust.sol#348-351)
+	Event emitted after the call(s):
+	- DisputeResolved(_disputeId,msg.sender) (contracts/RealEstateTrust.sol#356)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-4
+INFO:Detectors:
+Detector: timestamp
+RealEstateTrust.verifyProperty(uint256) (contracts/RealEstateTrust.sol#192-201) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(properties[_propertyId].id != 0,Property does not exist) (contracts/RealEstateTrust.sol#193)
+	- require(bool,string)(! properties[_propertyId].verified,Property already verified) (contracts/RealEstateTrust.sol#194)
+RealEstateTrust.createTransaction(uint256,string) (contracts/RealEstateTrust.sol#209-239) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(properties[_propertyId].id != 0,Property does not exist) (contracts/RealEstateTrust.sol#213)
+	- require(bool,string)(properties[_propertyId].verified,Property must be verified first) (contracts/RealEstateTrust.sol#214)
+	- require(bool,string)(properties[_propertyId].status == PropertyStatus.Listed,Property not available) (contracts/RealEstateTrust.sol#215)
+RealEstateTrust.fundTransaction(uint256) (contracts/RealEstateTrust.sol#241-259) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(transaction.id != 0,Transaction does not exist) (contracts/RealEstateTrust.sol#243)
+	- require(bool,string)(transaction.buyer == msg.sender,Only buyer can fund transaction) (contracts/RealEstateTrust.sol#244)
+	- require(bool,string)(transaction.status == TransactionStatus.Created,Invalid transaction status) (contracts/RealEstateTrust.sol#245)
+RealEstateTrust.completeTransaction(uint256) (contracts/RealEstateTrust.sol#261-292) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(transaction.id != 0,Transaction does not exist) (contracts/RealEstateTrust.sol#263)
+	- require(bool,string)(msg.sender == transaction.buyer || msg.sender == transaction.seller,Only buyer or seller can complete transaction) (contracts/RealEstateTrust.sol#264-267)
+	- require(bool,string)(transaction.status == TransactionStatus.Funded,Transaction not funded) (contracts/RealEstateTrust.sol#268)
+	- require(bool,string)(token.transfer(transaction.seller,transaction.amount),Payment to seller failed) (contracts/RealEstateTrust.sol#281-284)
+RealEstateTrust.createDispute(uint256,string) (contracts/RealEstateTrust.sol#296-321) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(transaction.id != 0,Transaction does not exist) (contracts/RealEstateTrust.sol#301)
+	- require(bool,string)(msg.sender == transaction.buyer || msg.sender == transaction.seller,Only buyer or seller can create dispute) (contracts/RealEstateTrust.sol#302-305)
+	- require(bool,string)(transaction.status != TransactionStatus.Completed,Cannot dispute completed transaction) (contracts/RealEstateTrust.sol#306)
+RealEstateTrust.resolveDispute(uint256,address) (contracts/RealEstateTrust.sol#323-357) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(dispute.id != 0,Dispute does not exist) (contracts/RealEstateTrust.sol#328)
+	- require(bool,string)(! dispute.resolved,Dispute already resolved) (contracts/RealEstateTrust.sol#329)
+	- require(bool,string)(_winner == transaction.buyer || _winner == transaction.seller,Invalid winner) (contracts/RealEstateTrust.sol#332-335)
+	- require(bool,string)(token.transfer(transaction.seller,transaction.amount),Payment to seller failed) (contracts/RealEstateTrust.sol#343-346)
+	- require(bool,string)(token.transfer(transaction.buyer,transaction.amount),Refund to buyer failed) (contracts/RealEstateTrust.sol#348-351)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+INFO:Detectors:
+Detector: pragma
+2 different versions of Solidity are used:
+	- Version constraint ^0.8.34 is used by:
+		-^0.8.34 (contracts/Counter.sol#2)
+	- Version constraint ^0.8.0 is used by:
+		-^0.8.0 (contracts/RealEstateTrust.sol#2)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#different-pragma-directives-are-used
+INFO:Detectors:
+Detector: costly-loop
+RealEstateTrust.removeVerifier(address) (contracts/RealEstateTrust.sol#151-159) has costly operations inside a loop:
+	- verifiers.pop() (contracts/RealEstateTrust.sol#155)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop
+INFO:Detectors:
+Detector: solc-version
+Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- FullInlinerNonExpressionSplitArgumentEvaluationOrder
+	- MissingSideEffectsOnSelectorAccess
+	- AbiReencodingHeadOverflowWithStaticArrayCleanup
+	- DirtyBytesArrayToStorage
+	- DataLocationChangeInInternalOverride
+	- NestedCalldataArrayAbiReencodingSizeValidation
+	- SignedImmutables
+	- ABIDecodeTwoDimensionalArrayMemory
+	- KeccakCaching.
+It is used by:
+	- ^0.8.0 (contracts/RealEstateTrust.sol#2)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity
+INFO:Detectors:
+Detector: naming-convention
+Parameter RealEstateTrust.addVerifier(address)._verifier (contracts/RealEstateTrust.sol#139) is not in mixedCase
+Parameter RealEstateTrust.addEscrowAgent(address)._agent (contracts/RealEstateTrust.sol#143) is not in mixedCase
+Parameter RealEstateTrust.addArbitrator(address)._arbitrator (contracts/RealEstateTrust.sol#147) is not in mixedCase
+Parameter RealEstateTrust.removeVerifier(address)._verifier (contracts/RealEstateTrust.sol#151) is not in mixedCase
+Parameter RealEstateTrust.listProperty(string,string,string,uint256,address)._title (contracts/RealEstateTrust.sol#164) is not in mixedCase
+Parameter RealEstateTrust.listProperty(string,string,string,uint256,address)._description (contracts/RealEstateTrust.sol#165) is not in mixedCase
+Parameter RealEstateTrust.listProperty(string,string,string,uint256,address)._location (contracts/RealEstateTrust.sol#166) is not in mixedCase
+Parameter RealEstateTrust.listProperty(string,string,string,uint256,address)._price (contracts/RealEstateTrust.sol#167) is not in mixedCase
+Parameter RealEstateTrust.listProperty(string,string,string,uint256,address)._paymentToken (contracts/RealEstateTrust.sol#168) is not in mixedCase
+Parameter RealEstateTrust.verifyProperty(uint256)._propertyId (contracts/RealEstateTrust.sol#192) is not in mixedCase
+Parameter RealEstateTrust.getProperty(uint256)._propertyId (contracts/RealEstateTrust.sol#203) is not in mixedCase
+Parameter RealEstateTrust.createTransaction(uint256,string)._propertyId (contracts/RealEstateTrust.sol#210) is not in mixedCase
+Parameter RealEstateTrust.createTransaction(uint256,string)._escrowAgent (contracts/RealEstateTrust.sol#211) is not in mixedCase
+Parameter RealEstateTrust.fundTransaction(uint256)._transactionId (contracts/RealEstateTrust.sol#241) is not in mixedCase
+Parameter RealEstateTrust.completeTransaction(uint256)._transactionId (contracts/RealEstateTrust.sol#261) is not in mixedCase
+Parameter RealEstateTrust.createDispute(uint256,string)._transactionId (contracts/RealEstateTrust.sol#297) is not in mixedCase
+Parameter RealEstateTrust.createDispute(uint256,string)._reason (contracts/RealEstateTrust.sol#298) is not in mixedCase
+Parameter RealEstateTrust.resolveDispute(uint256,address)._disputeId (contracts/RealEstateTrust.sol#324) is not in mixedCase
+Parameter RealEstateTrust.resolveDispute(uint256,address)._winner (contracts/RealEstateTrust.sol#325) is not in mixedCase
+Parameter RealEstateTrust.getTransaction(uint256)._transactionId (contracts/RealEstateTrust.sol#361) is not in mixedCase
+Parameter RealEstateTrust.getDispute(uint256)._disputeId (contracts/RealEstateTrust.sol#365) is not in mixedCase
+Parameter RealEstateTrust.getUserProperties(address)._user (contracts/RealEstateTrust.sol#369) is not in mixedCase
+Parameter RealEstateTrust.getUserTransactions(address)._user (contracts/RealEstateTrust.sol#373) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
+INFO:Detectors:
+Detector: constable-states
+RealEstateTrust.platformFeePercentage (contracts/RealEstateTrust.sol#80) should be constant 
+RealEstateTrust.verificationFee (contracts/RealEstateTrust.sol#79) should be constant 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant
+INFO:Detectors:
+Detector: immutable-states
+RealEstateTrust.owner (contracts/RealEstateTrust.sol#70) should be immutable 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-immutable
+INFO:Slither:. analyzed (3 contracts with 102 detectors), 43 result(s) found

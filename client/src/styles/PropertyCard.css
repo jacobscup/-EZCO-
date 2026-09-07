@@ -1,0 +1,166 @@
+.property-card {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.property-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-color);
+}
+
+.property-image {
+  position: relative;
+  width: 100%;
+  padding-top: 66.66%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  overflow: hidden;
+}
+
+.image-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f4f8;
+}
+
+.building-emoji {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.verified-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.property-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.property-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.property-location {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0 0 12px 0;
+}
+
+.property-description {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0 0 12px 0;
+  flex-grow: 1;
+}
+
+.property-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.price-section,
+.owner-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.price {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.owner {
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+  color: var(--text-primary);
+  margin: 0;
+  word-break: break-all;
+}
+
+.btn-view {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.btn-view:hover {
+  background-color: #1d4ed8;
+}
+
+@media (max-width: 768px) {
+  .property-title {
+    font-size: 15px;
+  }
+
+  .price {
+    font-size: 16px;
+  }
+
+  .property-info {
+    padding: 15px;
+  }
+}
