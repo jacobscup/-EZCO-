@@ -44,10 +44,10 @@
     "hardhat-ethers": "^1.0.1",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2",
-    "viem": "^2.56.3",
-    "vite": "^8.2.2"
+    "viem": "^2.56.3"
   },
   "dependencies": {
-    "dotenv": "^17.4.2"
+    "dotenv": "^17.4.2",
+    "vite": "^8.2.2"
   }
 }
