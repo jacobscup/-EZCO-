@@ -47,7 +47,6 @@
     "viem": "^2.56.3"
   },
   "dependencies": {
-    "dotenv": "^17.4.2",
-    "vite": "^8.2.2"
+    "dotenv": "^17.4.2"
   }
 }
