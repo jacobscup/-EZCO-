@@ -1,5 +1,6 @@
 import React from 'react'
 import '../styles/PropertyCard.css'
+import { formatAddress } from '../contract'
 
 function PropertyCard({ property, onSelect }) {
   const handleClick = () => {
@@ -38,7 +39,7 @@ function PropertyCard({ property, onSelect }) {
           <div className="owner-section">
             <span className="label">Owner</span>
             <p className="owner">
-              {property.owner.slice(0, 6)}...{property.owner.slice(-4)}
+              {formatAddress(property.owner)}
             </p>
           </div>
         </div>

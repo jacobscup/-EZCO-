@@ -3,6 +3,16 @@
   margin: 0 auto;
 }
 
+.eyebrow, .form-kicker { color: #d45d35; font-size: 12px; font-weight: 800; letter-spacing: 1.5px; }
+.contract-link { color: #176b5d; font-weight: 700; }
+.listing-form { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 28px 0; padding: 22px; background: #fffaf2; border: 1px solid #e7d9c8; border-radius: 8px; }
+.listing-form h3 { margin: 2px 0 0; }
+.listing-form input, .listing-form textarea { width: 100%; border: 1px solid #d9cec0; border-radius: 5px; padding: 12px; font: inherit; background: #fff; }
+.listing-form textarea { min-height: 48px; resize: vertical; }
+.listing-form .btn-primary { width: auto; }
+.chain-message { margin: 12px 0; padding: 12px 14px; background: #e7f4ef; border-left: 4px solid #176b5d; }
+@media (max-width: 700px) { .listing-form { grid-template-columns: 1fr; } }
+
 .marketplace-header {
   margin-bottom: 30px;
   text-align: center;

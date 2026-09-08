@@ -1,20 +1,8 @@
 import React from 'react'
 import '../styles/Navbar.css'
+import { formatAddress } from '../contract'
 
-function Navbar({ currentPage, onNavigate, userAddress }) {
-  const handleConnectWallet = async () => {
-    if (typeof window !== 'undefined' && window.ethereum) {
-      try {
-        const accounts = await window.ethereum.request({
-          method: 'eth_requestAccounts'
-        })
-        // Handle connection
-        console.log('Wallet connected:', accounts[0])
-      } catch (error) {
-        console.error('Wallet connection failed:', error)
-      }
-    }
-  }
+function Navbar({ currentPage, onNavigate, userAddress, onConnect, walletError }) {
 
   return (
     <nav className="navbar">
@@ -54,16 +42,15 @@ function Navbar({ currentPage, onNavigate, userAddress }) {
         <div className="navbar-right">
           {userAddress ? (
             <div className="wallet-info">
-              <span className="wallet-address">
-                {userAddress.slice(0, 6)}...{userAddress.slice(-4)}
-              </span>
+              <span className="wallet-address">{formatAddress(userAddress)}</span>
               <span className="wallet-badge">✓ Connected</span>
             </div>
           ) : (
-            <button className="btn-connect" onClick={handleConnectWallet}>
-              🔗 Connect Wallet
+            <button className="btn-connect" onClick={onConnect}>
+              Connect Wallet
             </button>
           )}
+          {walletError && <span className="wallet-error">{walletError}</span>}
         </div>
       </div>
     </nav>
